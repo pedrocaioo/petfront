@@ -18,10 +18,9 @@
       "senha": "123456"
     }
   ],
-  "cadastro-pet":[],
+  "cadastro-pet": [],
   "servicos": [],
   "istituicoes_doacao": [],
-  "clientes":[],
-  "cadastro_exames":[]
+  "clientes": [],
+  "cadastro_exames": []
 }
-

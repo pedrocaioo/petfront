@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-4 mt-5"> <img src="img/logo.png"></div>
+            <h1 class="col-2 offset-5 mt-1">Login</h1>
+            <form id="form_usuario">
+                <div class="col-4 offset-4 mt-2">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" aria-describedby="email">
+                <div id="emailHelp" class="form-text" >Campo Obrigatório.</div>
+                </div>
+                <div class="col-4 offset-4 mt-1">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="password">
+                </div>
+                <hr class="col-12">
+                <button type="submit" class="btn btn-primary col-4 offset-4 mt-1">Entrar</button>
+            </form>    
+        </div>
+    </div>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("form#form_usuario").submit(function(event){
+                event.preventDefault();
+
+                const email = $("#email");
+                const password = $("#password");
+
+                if(email.val() == "") {
+                    alert("E-mail Obrigatório.");
+                    return false;
+                }
+                if(password.val() == "") {
+                    alert("Senha Obrigatória.");
+                    return false;
+                }
+
+                $.ajax({
+                    url: "http://localhost:3000/usuarios?email="+email.val(),
+                    type: "GET",
+                    success: function(response) {
+                        if(response.length > 0) {
+                            const usuarios = response[0];
+                            
+                            if(usuarios.senha === password.val()){
+                                alert("Usuario logado com sucesso");
+                                const usuarioTexto = JSON.stringify(usuarios);
+                                localStorage.setItem("token_petfront", usuarioTexto);
+                                window.location = "pages/dashboard.html";
+                        } else {
+                            alert("Usuario ou senha incorreta");
+                        }
+                    } else {
+                        alert("Login ou senha incorreta");
+                    }
+                }
+            })
+                
+            })
+        });
+    </script>
+</body>
+</html>
